@@ -23,7 +23,7 @@ peopleRouter
       }
     });
 
-    const rsvpToSubmit = rsvp ?? RSVP_OPTIONS.NOT_RESPONDED;
+    const rsvpToSubmit = rsvp ? rsvp : RSVP_OPTIONS.NOT_RESPONDED;
 
     if (person_age && person_age !== AGE_OPTIONS.ADULT && person_age !== AGE_OPTIONS.CHILD) {
       return res.status(400).json({ error: "The person_age field needs to be either 'Adult' or 'Child'" });
