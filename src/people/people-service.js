@@ -21,7 +21,7 @@ const PeopleService = {
     return db("people").where({ id }).del();
   },
   updatePerson(db, id, newPerson) {
-    return db("people").where({ id }).update(newPerson);
+    return db("people").where({ id }).update(newPerson, ["*"]);
   }
 };
 

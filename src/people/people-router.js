@@ -135,7 +135,7 @@ peopleRouter
           id,
           newPerson
         )
-          .then(() => res.status(204).end())
+          .then((person) => res.json(person[0]))
           .catch(next)
       });
   })
