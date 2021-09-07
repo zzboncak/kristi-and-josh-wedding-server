@@ -5,7 +5,14 @@ const invitesRouter = express.Router();
 const jsonBodyParser = express.json();
 
 invitesRouter
-  .post("", jsonBodyParser, (req, res, next) => {
+  .get("/", jsonBodyParser, (req, res, next) => {
+    InvitesService
+      .getInvites(req.app.get('db'))
+      .then(response => res.json(response))
+      .catch(next)
+
+  })
+  .post("/", jsonBodyParser, (req, res, next) => {
     const { family_name, head_of_house } = req.body;
 
     if (!family_name) {

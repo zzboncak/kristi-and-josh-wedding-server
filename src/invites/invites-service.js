@@ -7,6 +7,11 @@ const InvitesService = {
       .into("invites")
       .returning("*")
       .then(([invite]) => invite)
+  },
+  getInvites(db) {
+    return db
+      .select("*")
+      .from("invites")
   }
 }
 
