@@ -54,7 +54,7 @@ invitesRouter
       (invite) => {
         if (!invite) {
           return res
-            .status(400)
+            .status(404)
             .json({ error: "No invite found with that ID" });
         }
 
@@ -90,7 +90,7 @@ invitesRouter
       (invite) => {
         if (!invite) {
           return res
-            .status(400)
+            .status(404)
             .json({ error: "No invite found with that ID" });
         }
 
