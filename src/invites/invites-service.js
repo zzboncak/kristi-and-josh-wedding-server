@@ -12,6 +12,12 @@ const InvitesService = {
     return db
       .select("*")
       .from("invites")
+  },
+  getInvitesByName(db, family_name) {
+    return db
+      .select("*")
+      .from("invites as i")
+      .whereRaw("LOWER(family_name) LIKE ?", [`%${family_name.toLowerCase()}%`])
   }
 }
 
