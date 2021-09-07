@@ -1,4 +1,4 @@
-CREATE TYPE rsvp_options AS ENUM ('Will attend', 'Regetfully decline');
+CREATE TYPE rsvp_options AS ENUM ('Will attend', 'Regetfully decline', 'Not yet responded');
 
 
 CREATE TYPE age AS ENUM ('Adult', 'Child');
