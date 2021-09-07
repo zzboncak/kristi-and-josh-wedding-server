@@ -1,4 +1,6 @@
 const express = require("express");
+const { AGE_OPTIONS, RSVP_OPTIONS } = require("../Constants");
+const PeopleService = require("../people/people-service");
 const InvitesService = require("./invites-service");
 
 const invitesRouter = express.Router();
@@ -31,7 +33,21 @@ invitesRouter
             .json({ error: "Something went wrong" });
         }
 
-        res.status(201).json(invite);
+        PeopleService.insertPerson(
+          req.app.get("db"),
+          {
+            family_id: invite.id,
+            last_name: invite.family_name,
+            first_name: invite.head_of_house,
+            person_age: AGE_OPTIONS.ADULT,
+            rsvp: RSVP_OPTIONS.NOT_RESPONDED
+          }
+        )
+          .then(() => {
+            res.status(201).json(invite);
+          })
+          .catch(next)
+
       })
       .catch(next);
   });
