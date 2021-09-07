@@ -23,10 +23,14 @@ peopleRouter
       }
     });
 
+    if (rsvp && rsvp !== RSVP_OPTIONS.WILL_ATTEND && rsvp !== RSVP_OPTIONS.DECLINE && rsvp !== RSVP_OPTIONS.NOT_RESPONDED) {
+      return res.status(400).json({ error: `The rsvp field needs to be either '${RSVP_OPTIONS.WILL_ATTEND}' or '${RSVP_OPTIONS.DECLINE}' or '${RSVP_OPTIONS.NOT_RESPONDED}'.`})
+    }
+
     const rsvpToSubmit = rsvp ? rsvp : RSVP_OPTIONS.NOT_RESPONDED;
 
     if (person_age && person_age !== AGE_OPTIONS.ADULT && person_age !== AGE_OPTIONS.CHILD) {
-      return res.status(400).json({ error: "The person_age field needs to be either 'Adult' or 'Child'" });
+      return res.status(400).json({ error: `The person_age field needs to be either '${AGE_OPTIONS.ADULT}' or '${AGE_OPTIONS.CHILD}'` });
     }
 
     const newPerson = {
@@ -97,6 +101,14 @@ peopleRouter
 
     if (nothingToUpdate) {
       return res.status(400).json({ error: "You need to include either 'family_id' or 'last_name' or 'first_name' or 'rsvp' or 'person_age' or 'allowed_extra' or 'extra_confirmed' to update" });
+    }
+
+    if (rsvp && rsvp !== RSVP_OPTIONS.WILL_ATTEND && rsvp !== RSVP_OPTIONS.DECLINE && rsvp !== RSVP_OPTIONS.NOT_RESPONDED) {
+      return res.status(400).json({ error: `The rsvp field needs to be either '${RSVP_OPTIONS.WILL_ATTEND}' or '${RSVP_OPTIONS.DECLINE}' or '${RSVP_OPTIONS.NOT_RESPONDED}'.`})
+    }
+
+    if (person_age && person_age !== AGE_OPTIONS.ADULT && person_age !== AGE_OPTIONS.CHILD) {
+      return res.status(400).json({ error: `The person_age field needs to be either '${AGE_OPTIONS.ADULT}' or '${AGE_OPTIONS.CHILD}'` });
     }
 
     const newPerson = {
