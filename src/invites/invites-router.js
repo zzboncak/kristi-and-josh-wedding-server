@@ -38,7 +38,7 @@ invitesRouter
         res.status(201).json(invite)
       })
       .catch(next)
-  })
+  });
 
 invitesRouter
   .route("/:family_name")
@@ -50,6 +50,31 @@ invitesRouter
     )
       .then(names => res.json(names))
       .catch(next)
-  })
+  });
+
+invitesRouter
+  .route("/delete/:id")
+  .delete(jsonBodyParser, (req, res, next) => {
+    const id = req.params.id;
+
+    InvitesService.getInviteById(
+      req.app.get("db"),
+      id
+    )
+      .then(invite => {
+        if (!invite) {
+          return res.status(400).json({ error: "No invite found with that ID" });
+        }
+
+        return InvitesService.deleteInviteById(
+          req.app.get("db"),
+          id
+        )
+          .then(() => res.status(204).end())
+          .catch(next)
+      })
+
+    
+  });
 
 module.exports = invitesRouter;
