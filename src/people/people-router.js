@@ -80,7 +80,7 @@ peopleRouter
     )
       .then(person => {
         if (!person) {
-          return res.status(400).json({ error: "No person found with that ID" });
+          return res.status(404).json({ error: "No person found with that ID" });
         }
 
         return PeopleService.deletePersonById(
@@ -127,7 +127,7 @@ peopleRouter
     )
       .then(person => {
         if (!person) {
-          return res.status(400).json({ error: "No person found with that ID" });
+          return res.status(404).json({ error: "No person found with that ID" });
         }
 
         return PeopleService.updatePerson(
