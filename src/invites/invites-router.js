@@ -22,7 +22,6 @@ invitesRouter
       });
     }
 
-    // use invites service to insert new invite to db
     InvitesService.insertInvite(
       req.app.get('db'),
       {
@@ -73,8 +72,41 @@ invitesRouter
           .then(() => res.status(204).end())
           .catch(next)
       })
-
-    
   });
+
+invitesRouter
+  .route("/update/:id")
+  .patch(jsonBodyParser, (req, res, next) => {
+    const id = req.params.id;
+    const { family_name, head_of_house } = req.body;
+    const nothingToUpdate = !family_name && !head_of_house;
+
+    if (nothingToUpdate) {
+      return res.status(400).json({ error: "You need to include either 'family_name' or 'head_of_house' to update" });
+    }
+
+    const newInvite = {
+      family_name,
+      head_of_house
+    }
+
+    InvitesService.getInviteById(
+      req.app.get("db"),
+      id
+    )
+      .then(invite => {
+        if (!invite) {
+          return res.status(400).json({ error: "No invite found with that ID" });
+        }
+
+        return InvitesService.updateInvite(
+          req.app.get("db"),
+          id,
+          newInvite
+        )
+          .then(() => res.status(204).end())
+          .catch(next)
+      });
+  })
 
 module.exports = invitesRouter;

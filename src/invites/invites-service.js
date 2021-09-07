@@ -30,6 +30,11 @@ const InvitesService = {
     return db('invites')
       .where({ id })
       .del()
+  },
+  updateInvite(db, id, newInvite) {
+    return db("invites")
+      .where({ id })
+      .update(newInvite)
   }
 }
 
