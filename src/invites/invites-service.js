@@ -22,6 +22,14 @@ const InvitesService = {
         `%${family_name.toLowerCase()}%`
       ]);
   },
+  getInvitesByKeyword(db, keyword) {
+    return db
+      .select("*")
+      .from("invites as i")
+      .whereRaw("LOWER(keyword) LIKE ?", [
+        `%${keyword.toLowerCase()}%`
+      ]);
+  },
   deleteInviteById(db, id) {
     return db("invites").where({ id }).del();
   },

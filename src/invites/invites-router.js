@@ -14,9 +14,9 @@ invitesRouter
       .catch(next);
   })
   .post(jsonBodyParser, (req, res, next) => {
-    const { family_name, head_of_house } = req.body;
+    const { family_name, head_of_house, keyword } = req.body;
 
-    if (!family_name) {
+    if (!family_name || !head_of_house || !keyword) {
       return res.status(400).json({
         error: "Missing 'family_name' in request body"
       });
@@ -24,7 +24,8 @@ invitesRouter
 
     InvitesService.insertInvite(req.app.get("db"), {
       family_name,
-      head_of_house
+      head_of_house,
+      keyword
     })
       .then((invite) => {
         if (!invite) {
@@ -53,10 +54,10 @@ invitesRouter
   });
 
 invitesRouter
-  .route("/:family_name")
+  .route("/:keyword")
   .get(jsonBodyParser, (req, res, next) => {
-    const family_name = req.params.family_name;
-    InvitesService.getInvitesByName(req.app.get("db"), family_name)
+    const keyword = req.params.keyword;
+    InvitesService.getInvitesByKeyword(req.app.get("db"), keyword)
       .then((names) => res.json(names))
       .catch(next);
   });
