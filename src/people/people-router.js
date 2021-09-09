@@ -96,9 +96,10 @@ peopleRouter
   .route("/update/:id")
   .patch(jsonBodyParser, (req, res, next) => {
     const id = req.params.id;
-    const { family_id, last_name, first_name, rsvp, person_age, allowed_extra, extra_confirmed} = req.body;
-    const nothingToUpdate = !family_id && !last_name && !first_name && !rsvp && !person_age && !allowed_extra && !extra_confirmed;
-
+    const { family_id, last_name, first_name, rsvp, person_age, allowed_extra, extra_confirmed } = req.body;
+    const nothingToUpdate = !family_id && !last_name && !first_name && !rsvp && !person_age && (allowed_extra === undefined) && !extra_confirmed;
+    console.log("allowed_extra", allowed_extra);
+    console.log("!(allowed_extra !== undefined)", !(allowed_extra !== undefined));
     if (nothingToUpdate) {
       return res.status(400).json({ error: "You need to include either 'family_id' or 'last_name' or 'first_name' or 'rsvp' or 'person_age' or 'allowed_extra' or 'extra_confirmed' to update" });
     }
