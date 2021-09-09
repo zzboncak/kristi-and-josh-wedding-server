@@ -1,5 +1,6 @@
 const express = require('express');
 const { RSVP_OPTIONS, AGE_OPTIONS } = require('../Constants');
+const InvitesService = require('../invites/invites-service');
 const PeopleService = require("./people-service");
 
 const peopleRouter = express.Router();
@@ -58,15 +59,25 @@ peopleRouter
   });
 
 peopleRouter
-  .route("/:family_id")
+  .route("/:keyword")
   .get(jsonBodyParser, (req, res, next) => {
-    const family_id = req.params.family_id;
-    PeopleService.getPeopleByFamilyId(
+    const keyword = req.params.keyword;
+    InvitesService.getInvitesByKeyword(
       req.app.get("db"),
-      family_id
-    )
-      .then(names => res.json(names))
-      .catch(next)
+      keyword
+    ).then(invites => {
+        if (invites.length === 0) {
+          return res.status(400).json({ error: "No invites with that keyword" });
+        }
+        const invite = invites[0];
+        return PeopleService.getPeopleByFamilyId(
+          req.app.get("db"),
+          invite.id
+        )
+          .then(names => res.json(names))
+          .catch(next)
+      })
+    
   });
 
 peopleRouter
