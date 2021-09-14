@@ -86,8 +86,8 @@ invitesRouter
   .route("/update/:id")
   .patch(jsonBodyParser, (req, res, next) => {
     const id = req.params.id;
-    const { family_name, head_of_house } = req.body;
-    const nothingToUpdate = !family_name && !head_of_house;
+    const { family_name, head_of_house, keyword, dietary_restrictions, favorite_song } = req.body;
+    const nothingToUpdate = !family_name && !head_of_house && !keyword && !dietary_restrictions && !favorite_song;
 
     if (nothingToUpdate) {
       return res
@@ -100,7 +100,10 @@ invitesRouter
 
     const newInvite = {
       family_name,
-      head_of_house
+      head_of_house,
+      keyword,
+      dietary_restrictions,
+      favorite_song
     };
 
     InvitesService.getInviteById(req.app.get("db"), id).then(
