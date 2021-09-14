@@ -94,7 +94,7 @@ invitesRouter
         .status(400)
         .json({
           error:
-            "You need to include either 'family_name' or 'head_of_house' to update"
+            "You need to include either 'family_name' or 'head_of_house' or 'keyword' or 'dietary_restrictions' or 'favorite_song' to update"
         });
     }
 
