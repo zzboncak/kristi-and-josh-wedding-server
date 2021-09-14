@@ -2,6 +2,7 @@ const express = require("express");
 const { AGE_OPTIONS, RSVP_OPTIONS } = require("../Constants");
 const PeopleService = require("../people/people-service");
 const InvitesService = require("./invites-service");
+const xss = require("xss");
 
 const invitesRouter = express.Router();
 const jsonBodyParser = express.json();
@@ -23,9 +24,9 @@ invitesRouter
     }
 
     InvitesService.insertInvite(req.app.get("db"), {
-      family_name,
-      head_of_house,
-      keyword
+      family_name: xss(family_name),
+      head_of_house: xss(head_of_house),
+      keyword: xss(keyword)
     })
       .then((invite) => {
         if (!invite) {
