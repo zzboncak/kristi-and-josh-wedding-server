@@ -9,7 +9,7 @@ const peopleRouter = require("./people/people-router");
 
 const app = express();
 
-const morganOption = NODE_ENV === "production" ? "tiny" : "common";
+// const morganOption = NODE_ENV === "production" ? "tiny" : "common";
 
 const corsOptions = {
   origin: function(origin, callback) {
@@ -21,7 +21,7 @@ const corsOptions = {
   }
 }
 
-app.use(morgan(morganOption));
+app.use(morgan("common"));
 app.use(cors(corsOptions));
 app.use(helmet());
 
