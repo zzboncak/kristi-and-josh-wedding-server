@@ -9,7 +9,7 @@ const peopleRouter = require("./people/people-router");
 
 const app = express();
 
-// const morganOption = NODE_ENV === "production" ? "tiny" : "common";
+const morganOption = NODE_ENV === "production" ? "tiny" : "common";
 
 const corsOptions = {
   origin: function(origin, callback) {
@@ -21,7 +21,7 @@ const corsOptions = {
   }
 }
 
-app.use(morgan("common"));
+app.use(morgan(morganOption));
 app.use(cors(corsOptions));
 app.use(helmet());
 
@@ -34,11 +34,11 @@ app.use("/api/people", peopleRouter);
 
 app.use(function errorHandler(error, req, res, next) {
   let response;
-  // if (NODE_ENV === "production") {
-  //   response = { error: { message: "server error" } };
-  // } else {
+  if (NODE_ENV === "production") {
+    response = { error: { message: "server error" } };
+  } else {
     response = { message: error.message, error };
-  // }
+  }
   res.status(500).json(response);
 });
 
