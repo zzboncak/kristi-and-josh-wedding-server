@@ -100,11 +100,11 @@ invitesRouter
     }
 
     const newInvite = {
-      family_name,
-      head_of_house,
-      keyword,
-      dietary_restrictions,
-      favorite_song
+      family_name: xss(family_name),
+      head_of_house: xss(head_of_house),
+      keyword: xss(keyword),
+      dietary_restrictions: xss(dietary_restrictions),
+      favorite_song: xss(favorite_song)
     };
 
     if (reset_diet) {
