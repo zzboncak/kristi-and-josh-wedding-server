@@ -26,9 +26,7 @@ const InvitesService = {
     return db
       .select("*")
       .from("invites as i")
-      .whereRaw("LOWER(keyword) LIKE ?", [
-        `%${keyword.toLowerCase()}%`
-      ]);
+      .where({ keyword })
   },
   deleteInviteById(db, id) {
     return db("invites").where({ id }).del();
