@@ -13,7 +13,7 @@ const morganOption = NODE_ENV === "production" ? "tiny" : "common";
 
 const corsOptions = {
   origin: function(origin, callback) {
-    if(CLIENT_ORIGIN.indexOf(origin) !== -1) {
+    if(CLIENT_ORIGIN.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"))
