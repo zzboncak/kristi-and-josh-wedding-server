@@ -99,14 +99,6 @@ invitesRouter
         });
     }
 
-    const newInvite = {
-      family_name: xss(family_name),
-      head_of_house: xss(head_of_house),
-      keyword: xss(keyword),
-      dietary_restrictions: xss(dietary_restrictions),
-      favorite_song: xss(favorite_song)
-    };
-
     if (reset_diet) {
       newInvite.dietary_restrictions = null;
     }
@@ -125,7 +117,10 @@ invitesRouter
         return InvitesService.updateInvite(
           req.app.get("db"),
           id,
-          newInvite
+          {
+            ...invite,
+            ...req.body
+          }
         )
           .then((invite) => res.json(invite[0]))
           .catch(next);
