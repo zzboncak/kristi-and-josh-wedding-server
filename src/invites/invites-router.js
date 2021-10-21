@@ -99,13 +99,6 @@ invitesRouter
         });
     }
 
-    if (reset_diet) {
-      newInvite.dietary_restrictions = null;
-    }
-    if (reset_song) {
-      newInvite.favorite_song = null;
-    }
-
     InvitesService.getInviteById(req.app.get("db"), id).then(
       (invite) => {
         if (!invite) {
@@ -114,13 +107,21 @@ invitesRouter
             .json({ error: "No invite found with that ID" });
         }
 
+        const inviteToUpdate = {...invite, ...req.body};
+
+        if (reset_diet) {
+          inviteToUpdate.dietary_restrictions = null;
+          delete inviteToUpdate.reset_diet;
+        }
+        if (reset_song) {
+          inviteToUpdate.favorite_song = null;
+          delete inviteToUpdate.reset_song;
+        }
+
         return InvitesService.updateInvite(
           req.app.get("db"),
           id,
-          {
-            ...invite,
-            ...req.body
-          }
+          inviteToUpdate
         )
           .then((invite) => res.json(invite[0]))
           .catch(next);
